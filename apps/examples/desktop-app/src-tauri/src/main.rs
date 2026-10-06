@@ -1329,9 +1329,9 @@ fn setup_application_menu(
     app.set_menu(menu)?;
     set_macos_menu_key_equivalent("View", "Zoom In", "+")?;
     app.on_menu_event(|app, event| {
-        if event.id().as_ref() == CHECK_FOR_UPDATES_MENU_ID {
-            handle_check_for_updates_menu(app);
-        } else if let Some(action) = application_menu_action(event.id().as_ref()) {
+        // The tray's menu handler also receives application menu events;
+        // it handles Check for Updates once for both menus.
+        if let Some(action) = application_menu_action(event.id().as_ref()) {
             queue_desktop_action(app, action);
         }
     });
