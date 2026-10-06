@@ -20,51 +20,35 @@ If you find yourself repeatedly clicking approve for the same safe operations, A
 
 ## How It Works
 
-Auto Approve is evaluated per tool call. When Cline is about to read a file, edit a file, run a command, or use the browser, it checks your Auto Approve settings for that category.
-
-A few details matter:
-
-- **Workspace vs outside workspace**: "Read all files" and "Edit all files" only extend the base toggle. If the base toggle is off, the "all files" option does nothing.
-- **Terminal commands**: Cline treats commands as either safe or requiring approval. "Execute safe commands" covers safe commands. "Execute all commands" extends to commands flagged as requiring approval.
-- **Notifications**: If enabled, Cline sends OS-level notifications when approval is required, and when an auto-approved terminal command has been running for 30 seconds.
+Auto Approve is evaluated per tool call. When Cline is about to read a file, edit a file, run a command, fetch web content, or call an MCP tool, it checks your current Auto Approve setting for that category. Changes to the toggles also apply to an active session.
 
 ## Permissions
 
+The VS Code extension's Auto Approve menu has five options:
+
 | Setting | What It Allows |
 |---------|----------------|
-| Read project files | Read files, list files, search in your workspace |
-| Read all files | Read files outside your workspace (requires base toggle) |
-| Edit project files | Create and edit files in your workspace |
-| Edit all files | Edit files outside your workspace (requires base toggle) |
-| Execute safe commands | Run terminal commands marked safe |
-| Execute all commands | Run commands requiring approval (requires base toggle) |
-| Use the browser | Browser tool for web fetching and searching |
-| Use MCP servers | MCP tools and resources |
-| Enable notifications | Notifies you about long-running commands |
+| Read files | Read files, list files, and search files or code |
+| Edit files | Create, edit, and delete files |
+| Execute commands | Run terminal commands without an approval prompt |
+| Fetch web content | Fetch web pages and search the web |
+| Use MCP servers | Call tools from any connected MCP server |
 
 <Warning>
-"Read all files" and "Edit all files" only matter if their base toggle is enabled. They extend access outside your workspace.
+The file toggles do not distinguish between project files and files outside the workspace. Only enable them when you are comfortable with Cline accessing those files.
 </Warning>
 
-## Safe vs Approval-Required Commands
+## Command Approval
 
-Cline does not use a fixed allowlist. The model marks each command with a `requires_approval` flag based on the command and arguments. These are examples, not guarantees.
+**Execute commands** is a single toggle. Turning it on auto-approves command tools, including commands that modify files, install dependencies, or delete data. There are no separate "safe commands" and "all commands" options in the current menu.
 
-**Commonly treated as safe:**
-- `npm run build`, `npm test` - Build/test output
-- `git status`, `ls -la`, `cat package.json` - Read-only commands
-
-**Commonly requires approval:**
-- `npm install <pkg>` - Modifies dependencies
-- `rm -rf <path>` - Deletes files
-- `mv <a> <b>` - Moves files (can overwrite)
-- `sed -i ...` - In-place file edits
+Leave it off if you want to review commands before they run.
 
 ## Recommendations
 
 A good default setup:
-- Enable **Read project files**
-- Leave edits, commands, browser, and MCP off until you have a specific reason
+- Enable **Read files**
+- Leave **Edit files**, **Execute commands**, **Fetch web content**, and **Use MCP servers** off until you have a specific reason
 
 If you enable edits, use [Checkpoints](/core-workflows/checkpoints) so you can roll back quickly.
 
